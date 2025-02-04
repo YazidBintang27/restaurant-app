@@ -108,7 +108,7 @@ class _SearchState extends State<Search> {
                               return RestaurantCard(
                                 restaurant: restaurant,
                                 onTap: () {
-                                  context.go('/detail');
+                                  context.push('/detail/${restaurant.id}');
                                 },
                               );
                             },

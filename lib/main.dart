@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/data/service/api_service.dart';
+import 'package:restaurant_app/presentation/providers/detail/restaurant_detail_provider.dart';
+import 'package:restaurant_app/presentation/providers/detail/restaurant_review_provider.dart';
 import 'package:restaurant_app/presentation/providers/home/restaurant_list_provider.dart';
 import 'package:restaurant_app/presentation/providers/main/index_nav_provider.dart';
 import 'package:restaurant_app/presentation/providers/search/restaurant_search_provider.dart';
@@ -19,7 +21,13 @@ void main() {
       ChangeNotifierProvider(
           create: (context) =>
               RestaurantSearchProvider(context.read<ApiService>())),
-      ChangeNotifierProvider(create: (context) => ThemeProvider())
+      ChangeNotifierProvider(create: (context) => ThemeProvider()),
+      ChangeNotifierProvider(
+          create: (context) =>
+              RestaurantDetailProvider(context.read<ApiService>())),
+      ChangeNotifierProvider(
+          create: (context) =>
+              RestaurantReviewProvider(context.read<ApiService>()))
     ],
     child: const MainApp(),
   ));
@@ -34,7 +42,9 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: Provider.of<ThemeProvider>(context).isDark ? ThemeMode.light : ThemeMode.dark,
+      themeMode: Provider.of<ThemeProvider>(context).isDark
+          ? ThemeMode.light
+          : ThemeMode.dark,
       routerConfig: AppRouter.router,
     );
   }

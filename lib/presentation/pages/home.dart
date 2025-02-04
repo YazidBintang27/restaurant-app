@@ -84,11 +84,14 @@ class _HomeState extends State<Home> {
                           itemBuilder: (context, index) {
                             final restaurant =
                                 restaurantList.restaurants[index];
-                            return RestaurantCard(
-                                restaurant: restaurant,
-                                onTap: () {
-                                  context.go('/detail');
-                                });
+                            return Hero(
+                              tag: restaurant.pictureId,
+                              child: RestaurantCard(
+                                  restaurant: restaurant,
+                                  onTap: () {
+                                    context.push('/detail/${restaurant.id}');
+                                  }),
+                            );
                           },
                         ),
                       AppListErrorState(error: var message) => Center(

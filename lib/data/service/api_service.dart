@@ -85,10 +85,10 @@ class ApiService {
               options: Options(
                   headers: {'Accept': 'application/json'},
                   contentType: 'application/json'),
-              data: restaurantAddReview)
+              data: restaurantAddReview.toJson())
           .timeout(
             const Duration(seconds: 30),
-            onTimeout: () => throw TimeoutException('Connectin time out'),
+            onTimeout: () => throw TimeoutException('Connection time out'),
           );
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = response.data;
