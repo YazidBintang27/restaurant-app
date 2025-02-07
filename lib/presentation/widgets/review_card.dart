@@ -5,12 +5,20 @@ class ReviewCard extends StatelessWidget {
   final String review;
   final String date;
 
-  const ReviewCard({super.key, required this.name, required this.review, required this.date});
+  const ReviewCard(
+      {super.key,
+      required this.name,
+      required this.review,
+      required this.date});
 
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints(minHeight: 60, maxHeight: 80, minWidth: 180, maxWidth: 180),
+      constraints: BoxConstraints(
+          minHeight: 60,
+          maxHeight: 70,
+          minWidth: MediaQuery.of(context).size.width / 1,
+          maxWidth: MediaQuery.of(context).size.width / 1),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -24,10 +32,8 @@ class ReviewCard extends StatelessWidget {
               ),
               Text(
                 date,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall
-                    ?.copyWith(color: Theme.of(context).colorScheme.tertiary),
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: Theme.of(context).colorScheme.tertiary),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

@@ -28,6 +28,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         title: Text(
           'Resto.',
           style: Theme.of(context).textTheme.headlineSmall,
@@ -94,7 +95,7 @@ class _HomeState extends State<Home> {
                             );
                           },
                         ),
-                      AppListErrorState(error: var message) => Center(
+                      AppListErrorState() => Center(
                           child: Lottie.asset('assets/animations/error.json',
                               width: 300,
                               height: 300,

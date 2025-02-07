@@ -65,7 +65,7 @@ class _DetailState extends State<Detail> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 16),
                                     child: GestureDetector(
-                                      onTap: () => context.pop(),
+                                      onTap: () => context.go('/main'),
                                       child: Container(
                                         width: 32,
                                         height: 32,
@@ -167,6 +167,7 @@ class _DetailState extends State<Detail> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: GridView.builder(
+                              padding: const EdgeInsets.only(top: 8),
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               gridDelegate:
@@ -191,6 +192,7 @@ class _DetailState extends State<Detail> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: GridView.builder(
+                              padding: const EdgeInsets.only(top: 8),
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               gridDelegate:
@@ -215,6 +217,8 @@ class _DetailState extends State<Detail> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: ListView.builder(
+                            reverse: true,
+                            padding: const EdgeInsets.only(top: 8),
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
@@ -259,7 +263,7 @@ class _DetailState extends State<Detail> {
                         )
                       ],
                     ),
-                  AppDetailErrorState(error: var message) => Center(
+                  AppDetailErrorState() => Center(
                       child: Lottie.asset('assets/animations/error.json',
                           width: 300,
                           height: 300,

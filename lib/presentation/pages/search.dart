@@ -32,6 +32,7 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           title: SearchBar(
             leading: HugeIcon(
               icon: HugeIcons.strokeRoundedSearch01,
@@ -113,7 +114,7 @@ class _SearchState extends State<Search> {
                               );
                             },
                           ),
-                  AppSearchErrorState(error: var message) => Center(
+                  AppSearchErrorState() => Center(
                       child: Lottie.asset('assets/animations/error.json',
                           width: 300,
                           height: 300,
