@@ -1,4 +1,4 @@
-import 'package:restaurant_app/data/models/response/restaurant_search.dart';
+import 'package:restaurant_app/data/remote/models/response/restaurant_search.dart';
 
 sealed class AppSearchResultState {}
 

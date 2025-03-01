@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/data/local/models/favourite.dart';
+import 'package:restaurant_app/presentation/providers/database/local_database_provider.dart';
 import 'package:restaurant_app/presentation/providers/search/restaurant_search_provider.dart';
 import 'package:restaurant_app/presentation/providers/theme/theme_provider.dart';
 import 'package:restaurant_app/presentation/widgets/restaurant_card.dart';
@@ -30,6 +32,7 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
+    final localDatabaseProvider = context.read<LocalDatabaseProvider>();
     return Scaffold(
         appBar: AppBar(
           scrolledUnderElevation: 0,
@@ -108,8 +111,19 @@ class _SearchState extends State<Search> {
                                   restaurantSearch.restaurants[index];
                               return RestaurantCard(
                                 restaurant: restaurant,
+                                isFromLocal: false,
                                 onTap: () {
                                   context.push('/detail/${restaurant.id}');
+                                },
+                                onFavourite: () {
+                                  Favourite favourite = Favourite(
+                                      id: restaurant.id,
+                                      name: restaurant.name,
+                                      image: restaurant.pictureId,
+                                      city: restaurant.city,
+                                      rating: restaurant.rating);
+                                  localDatabaseProvider.toggleFavourite(
+                                      favourite, restaurant.id);
                                 },
                               );
                             },

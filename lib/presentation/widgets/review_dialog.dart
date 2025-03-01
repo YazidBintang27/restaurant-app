@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/data/models/request/restaurant_add_review_request.dart';
+import 'package:restaurant_app/data/remote/models/request/restaurant_add_review_request.dart';
 import 'package:restaurant_app/presentation/providers/detail/restaurant_review_provider.dart';
 
 class ReviewDialog extends StatefulWidget {

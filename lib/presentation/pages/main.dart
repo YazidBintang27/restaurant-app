@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/presentation/pages/favourite.dart';
 import 'package:restaurant_app/presentation/pages/home.dart';
 import 'package:restaurant_app/presentation/pages/search.dart';
 import 'package:restaurant_app/presentation/providers/main/index_nav_provider.dart';
@@ -14,7 +15,8 @@ class Main extends StatelessWidget {
       body: Consumer<IndexNavProvider>(builder: (context, value, child) {
         return switch (value.indexBottomNavbar) {
           0 => const Home(),
-          _ => const Search()
+          1 => const Search(),
+          _ => const Favourite()
         };
       }),
       bottomNavigationBar: BottomNavigationBar(
@@ -39,7 +41,15 @@ class Main extends StatelessWidget {
                   size: 24.0,
                 ),
                 label: 'Search',
-                tooltip: 'Search')
+                tooltip: 'Search'),
+            BottomNavigationBarItem(
+                icon: HugeIcon(
+                  icon: HugeIcons.strokeRoundedFavourite,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 24.0,
+                ),
+                label: 'Favourite',
+                tooltip: 'Favourite'),
           ]),
     );
   }

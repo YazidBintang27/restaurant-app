@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/data/local/models/favourite.dart';
+import 'package:restaurant_app/presentation/providers/database/local_database_provider.dart';
 import 'package:restaurant_app/presentation/providers/detail/restaurant_detail_provider.dart';
 import 'package:restaurant_app/presentation/widgets/menu_card.dart';
 import 'package:restaurant_app/presentation/widgets/review_card.dart';
@@ -29,6 +31,7 @@ class _DetailState extends State<Detail> {
 
   @override
   Widget build(BuildContext context) {
+    final localDatabaseProvider = context.read<LocalDatabaseProvider>();
     return Scaffold(
       body: SingleChildScrollView(
         child: ConstrainedBox(
@@ -55,6 +58,7 @@ class _DetailState extends State<Detail> {
                                 '${ApiConstant.baseUrl}${ApiConstant.imagePath}/${restaurant.pictureId}',
                                 fit: BoxFit.cover,
                                 width: MediaQuery.of(context).size.width / 1,
+                                height: 270,
                               ),
                             ),
                             SafeArea(
@@ -67,8 +71,8 @@ class _DetailState extends State<Detail> {
                                     child: GestureDetector(
                                       onTap: () => context.go('/main'),
                                       child: Container(
-                                        width: 32,
-                                        height: 32,
+                                        width: 36,
+                                        height: 36,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(100),
@@ -83,6 +87,73 @@ class _DetailState extends State<Detail> {
                                                 .colorScheme
                                                 .primary,
                                             size: 24.0,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 16),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Favourite favourite = Favourite(
+                                            id: restaurant.id,
+                                            name: restaurant.name,
+                                            image: restaurant.pictureId,
+                                            city: restaurant.city,
+                                            rating: restaurant.rating);
+                                        localDatabaseProvider.toggleFavourite(
+                                            favourite, restaurant.id);
+                                      },
+                                      child: Container(
+                                        width: 36,
+                                        height: 36,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimary),
+                                        child: Center(
+                                          child:
+                                              Consumer<LocalDatabaseProvider>(
+                                            builder: (context,
+                                                localDatabaseProvider, child) {
+                                              return FutureBuilder<bool>(
+                                                future: localDatabaseProvider
+                                                    .isFavouriteRestaurant(
+                                                        restaurant.id),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot
+                                                          .connectionState ==
+                                                      ConnectionState.waiting) {
+                                                    return const Icon(
+                                                      Icons.favorite_outline,
+                                                      color: Colors
+                                                          .grey,
+                                                      size: 24.0,
+                                                    );
+                                                  }
+                                                  if (snapshot.hasError) {
+                                                    return const Icon(
+                                                      Icons.error_outline,
+                                                      color: Colors.red,
+                                                      size: 24.0,
+                                                    );
+                                                  }
+                                                  bool isFavourite =
+                                                      snapshot.data ?? false;
+                                                  return Icon(
+                                                    isFavourite
+                                                        ? Icons.favorite_rounded
+                                                        : Icons
+                                                            .favorite_outline,
+                                                    color: Colors.redAccent,
+                                                    size: 24.0,
+                                                  );
+                                                },
+                                              );
+                                            },
                                           ),
                                         ),
                                       ),

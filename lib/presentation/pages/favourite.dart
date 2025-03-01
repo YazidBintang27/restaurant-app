@@ -1,29 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/local/models/favourite.dart';
 import 'package:restaurant_app/presentation/providers/database/local_database_provider.dart';
-import 'package:restaurant_app/presentation/providers/home/restaurant_list_provider.dart';
 import 'package:restaurant_app/presentation/providers/theme/theme_provider.dart';
 import 'package:restaurant_app/presentation/widgets/restaurant_card.dart';
-import 'package:restaurant_app/utils/app_list_result_state.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class Favourite extends StatefulWidget {
+  const Favourite({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Favourite> createState() => _FavouriteState();
 }
 
-class _HomeState extends State<Home> {
+class _FavouriteState extends State<Favourite> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      context.read<RestaurantListProvider>().getRestaurantList();
-    });
+    Future.microtask(
+        () => {context.read<LocalDatabaseProvider>().getAllItem()});
   }
 
   @override
@@ -33,8 +28,9 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         title: Text(
-          'Resto.',
-          style: Theme.of(context).textTheme.headlineSmall,
+          'Favourite',
+          style:
+              Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 18),
         ),
         actions: [
           Padding(
@@ -85,58 +81,35 @@ class _HomeState extends State<Home> {
               Padding(
                 padding: const EdgeInsets.only(top: 16, bottom: 10),
                 child: Text(
-                  'Recommendation for You!',
+                  'Your Favourite Restaurant',
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
               ),
               Expanded(
-                child: Consumer<RestaurantListProvider>(
+                child: Consumer<LocalDatabaseProvider>(
                   builder: (context, value, child) {
-                    return switch (value.resultState) {
-                      AppListLoadingState() => Center(
-                            child: Lottie.asset(
-                          'assets/animations/loading.json',
-                          width: 240,
-                          height: 240,
-                          fit: BoxFit.cover,
-                        )),
-                      AppListLoadedState(data: var restaurantList) =>
-                        ListView.builder(
-                          itemCount: restaurantList.restaurants.length,
-                          itemBuilder: (context, index) {
-                            final restaurant =
-                                restaurantList.restaurants[index];
-                            return Hero(
-                              tag: restaurant.pictureId,
-                              child: RestaurantCard(
-                                restaurant: restaurant,
-                                isFromLocal: false,
-                                onTap: () {
-                                  context.push('/detail/${restaurant.id}');
-                                },
-                                onFavourite: () {
-                                  Favourite favourite = Favourite(
-                                      id: restaurant.id,
-                                      name: restaurant.name,
-                                      image: restaurant.pictureId,
-                                      city: restaurant.city,
-                                      rating: restaurant.rating);
-                                  localDatabaseProvider.toggleFavourite(
-                                      favourite, restaurant.id);
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      AppListErrorState() => Center(
-                          child: Lottie.asset('assets/animations/error.json',
-                              width: 300,
-                              height: 300,
-                              fit: BoxFit.cover,
-                              repeat: false),
-                        ),
-                      _ => const SizedBox()
-                    };
+                    if (value.favouriteList == null || value.favouriteList!.isEmpty) {
+                      return const Center(
+                        child: Text("No favourite restaurants found."),
+                      );
+                    }
+                    return ListView.builder(
+                      itemCount: value.favouriteList!.length,
+                      itemBuilder: (context, index) {
+                        final favourite = value.favouriteList![index];
+                        return Hero(
+                          tag: favourite.image ?? 'default_tag_$index',
+                          child: RestaurantCard(
+                            onTap: () {},
+                            onFavourite: () {
+                              value.toggleFavourite(favourite, favourite.id);
+                            },
+                            isFromLocal: true,
+                            favourite: favourite,
+                          ),
+                        );
+                      },
+                    );
                   },
                 ),
               )

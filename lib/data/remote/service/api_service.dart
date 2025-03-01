@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:restaurant_app/data/models/response/restaurant_add_review.dart';
-import 'package:restaurant_app/data/models/request/restaurant_add_review_request.dart';
-import 'package:restaurant_app/data/models/response/restaurant_detail.dart';
-import 'package:restaurant_app/data/models/response/restaurant_list.dart';
-import 'package:restaurant_app/data/models/response/restaurant_search.dart';
+import 'package:restaurant_app/data/remote/models/response/restaurant_add_review.dart';
+import 'package:restaurant_app/data/remote/models/request/restaurant_add_review_request.dart';
+import 'package:restaurant_app/data/remote/models/response/restaurant_detail.dart';
+import 'package:restaurant_app/data/remote/models/response/restaurant_list.dart';
+import 'package:restaurant_app/data/remote/models/response/restaurant_search.dart';
 import 'package:restaurant_app/utils/api_constant.dart';
 
 class ApiService {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/data/service/api_service.dart';
+import 'package:restaurant_app/data/local/services/sqlite_service.dart';
+import 'package:restaurant_app/data/remote/service/api_service.dart';
+import 'package:restaurant_app/presentation/providers/database/local_database_provider.dart';
 import 'package:restaurant_app/presentation/providers/detail/restaurant_detail_provider.dart';
 import 'package:restaurant_app/presentation/providers/detail/restaurant_review_provider.dart';
 import 'package:restaurant_app/presentation/providers/home/restaurant_list_provider.dart';
@@ -27,7 +29,11 @@ void main() {
               RestaurantDetailProvider(context.read<ApiService>())),
       ChangeNotifierProvider(
           create: (context) =>
-              RestaurantReviewProvider(context.read<ApiService>()))
+              RestaurantReviewProvider(context.read<ApiService>())),
+      Provider(create: (context) => SqliteService()),
+      ChangeNotifierProvider(
+          create: (context) =>
+              LocalDatabaseProvider(context.read<SqliteService>()))
     ],
     child: const MainApp(),
   ));
