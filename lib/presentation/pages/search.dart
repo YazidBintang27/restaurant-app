@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/local/models/favourite.dart';
 import 'package:restaurant_app/presentation/providers/database/local_database_provider.dart';
 import 'package:restaurant_app/presentation/providers/search/restaurant_search_provider.dart';
-import 'package:restaurant_app/presentation/providers/theme/theme_provider.dart';
+import 'package:restaurant_app/presentation/providers/setting/shared_preference_provider.dart';
 import 'package:restaurant_app/presentation/widgets/restaurant_card.dart';
 import 'package:restaurant_app/utils/app_search_result_state.dart';
 
@@ -25,6 +25,7 @@ class _SearchState extends State<Search> {
       context
           .read<RestaurantSearchProvider>()
           .searchRestaurant(_controller.text);
+      context.read<SharedPreferenceProvider>().getThemesAndNotificationValue();
     });
   }
 
@@ -65,10 +66,10 @@ class _SearchState extends State<Search> {
           actions: [
             Padding(
                 padding: const EdgeInsets.only(right: 16),
-                child: Consumer<ThemeProvider>(
+                child: Consumer<SharedPreferenceProvider>(
                   builder: (context, value, child) => GestureDetector(
-                    onTap: () => value.toggleTheme = value.isDark,
-                    child: value.isDark
+                    onTap: () => value.toggleTheme(value.themes),
+                    child: value.themes
                         ? HugeIcon(
                             icon: HugeIcons.strokeRoundedMoon02,
                             color: Theme.of(context).colorScheme.primary,

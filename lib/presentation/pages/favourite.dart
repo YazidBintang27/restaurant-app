@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/data/local/models/favourite.dart';
 import 'package:restaurant_app/presentation/providers/database/local_database_provider.dart';
-import 'package:restaurant_app/presentation/providers/theme/theme_provider.dart';
+import 'package:restaurant_app/presentation/providers/setting/shared_preference_provider.dart';
 import 'package:restaurant_app/presentation/widgets/restaurant_card.dart';
 
 class Favourite extends StatefulWidget {
@@ -17,8 +16,10 @@ class _FavouriteState extends State<Favourite> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-        () => {context.read<LocalDatabaseProvider>().getAllItem()});
+    Future.microtask(() {
+      context.read<LocalDatabaseProvider>().getAllItem();
+      context.read<SharedPreferenceProvider>().getThemesAndNotificationValue();
+    });
   }
 
   @override
@@ -35,10 +36,10 @@ class _FavouriteState extends State<Favourite> {
         actions: [
           Padding(
               padding: const EdgeInsets.only(right: 16),
-              child: Consumer<ThemeProvider>(
+              child: Consumer<SharedPreferenceProvider>(
                 builder: (context, value, child) => GestureDetector(
-                  onTap: () => value.toggleTheme = value.isDark,
-                  child: value.isDark
+                  onTap: () => value.toggleNotification(value.notification),
+                  child: value.notification
                       ? HugeIcon(
                           icon: HugeIcons.strokeRoundedNotification01,
                           color: Theme.of(context).colorScheme.primary,
@@ -53,10 +54,10 @@ class _FavouriteState extends State<Favourite> {
               )),
           Padding(
               padding: const EdgeInsets.only(right: 16),
-              child: Consumer<ThemeProvider>(
+              child: Consumer<SharedPreferenceProvider>(
                 builder: (context, value, child) => GestureDetector(
-                  onTap: () => value.toggleTheme = value.isDark,
-                  child: value.isDark
+                  onTap: () => value.toggleTheme(value.themes),
+                  child: value.themes
                       ? HugeIcon(
                           icon: HugeIcons.strokeRoundedMoon02,
                           color: Theme.of(context).colorScheme.primary,
@@ -88,7 +89,8 @@ class _FavouriteState extends State<Favourite> {
               Expanded(
                 child: Consumer<LocalDatabaseProvider>(
                   builder: (context, value, child) {
-                    if (value.favouriteList == null || value.favouriteList!.isEmpty) {
+                    if (value.favouriteList == null ||
+                        value.favouriteList!.isEmpty) {
                       return const Center(
                         child: Text("No favourite restaurants found."),
                       );

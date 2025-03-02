@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/local/models/favourite.dart';
 import 'package:restaurant_app/presentation/providers/database/local_database_provider.dart';
 import 'package:restaurant_app/presentation/providers/home/restaurant_list_provider.dart';
-import 'package:restaurant_app/presentation/providers/theme/theme_provider.dart';
+import 'package:restaurant_app/presentation/providers/setting/shared_preference_provider.dart';
 import 'package:restaurant_app/presentation/widgets/restaurant_card.dart';
 import 'package:restaurant_app/utils/app_list_result_state.dart';
 
@@ -24,6 +24,9 @@ class _HomeState extends State<Home> {
     Future.microtask(() {
       context.read<RestaurantListProvider>().getRestaurantList();
     });
+    Future.microtask(() {
+      context.read<SharedPreferenceProvider>().getThemesAndNotificationValue();
+    });
   }
 
   @override
@@ -39,10 +42,10 @@ class _HomeState extends State<Home> {
         actions: [
           Padding(
               padding: const EdgeInsets.only(right: 16),
-              child: Consumer<ThemeProvider>(
+              child: Consumer<SharedPreferenceProvider>(
                 builder: (context, value, child) => GestureDetector(
-                  onTap: () => value.toggleTheme = value.isDark,
-                  child: value.isDark
+                  onTap: () => value.toggleNotification(value.notification),
+                  child: value.notification
                       ? HugeIcon(
                           icon: HugeIcons.strokeRoundedNotification01,
                           color: Theme.of(context).colorScheme.primary,
@@ -57,10 +60,10 @@ class _HomeState extends State<Home> {
               )),
           Padding(
               padding: const EdgeInsets.only(right: 16),
-              child: Consumer<ThemeProvider>(
+              child: Consumer<SharedPreferenceProvider>(
                 builder: (context, value, child) => GestureDetector(
-                  onTap: () => value.toggleTheme = value.isDark,
-                  child: value.isDark
+                  onTap: () => value.toggleTheme(value.themes),
+                  child: value.themes
                       ? HugeIcon(
                           icon: HugeIcons.strokeRoundedMoon02,
                           color: Theme.of(context).colorScheme.primary,
