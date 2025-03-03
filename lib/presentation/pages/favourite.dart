@@ -5,6 +5,8 @@ import 'package:restaurant_app/presentation/providers/database/local_database_pr
 import 'package:restaurant_app/presentation/providers/setting/shared_preference_provider.dart';
 import 'package:restaurant_app/presentation/widgets/restaurant_card.dart';
 
+import '../providers/notification/local_notification_provider.dart';
+
 class Favourite extends StatefulWidget {
   const Favourite({super.key});
 
@@ -22,9 +24,22 @@ class _FavouriteState extends State<Favourite> {
     });
   }
 
+  Future<void> _requestPermission() async {
+    context.read<LocalNotificationProvider>().requestPermissions();
+  }
+
+  Future<void> _scheduleDailyElevenAMNotification() async {
+    context
+        .read<LocalNotificationProvider>()
+        .scheduleDailyElevenAMNotification();
+  }
+
+  Future<void> _cancelNotification(int id) async {
+    context.read<LocalNotificationProvider>().cancelNotification(id);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final localDatabaseProvider = context.read<LocalDatabaseProvider>();
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
@@ -38,7 +53,15 @@ class _FavouriteState extends State<Favourite> {
               padding: const EdgeInsets.only(right: 16),
               child: Consumer<SharedPreferenceProvider>(
                 builder: (context, value, child) => GestureDetector(
-                  onTap: () => value.toggleNotification(value.notification),
+                  onTap: () async {
+                    value.toggleNotification(value.notification);
+                    if (value.notification) {
+                      await _requestPermission();
+                      await _scheduleDailyElevenAMNotification();
+                    } else {
+                      await _cancelNotification(3);
+                    }
+                  },
                   child: value.notification
                       ? HugeIcon(
                           icon: HugeIcons.strokeRoundedNotification01,
@@ -100,7 +123,7 @@ class _FavouriteState extends State<Favourite> {
                       itemBuilder: (context, index) {
                         final favourite = value.favouriteList![index];
                         return Hero(
-                          tag: favourite.image ?? 'default_tag_$index',
+                          tag: favourite.image,
                           child: RestaurantCard(
                             onTap: () {},
                             onFavourite: () {

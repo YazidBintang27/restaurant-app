@@ -1,4 +1,3 @@
-import 'package:restaurant_app/data/local/models/setting.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceService {

@@ -10,6 +10,8 @@ import 'package:restaurant_app/presentation/providers/setting/shared_preference_
 import 'package:restaurant_app/presentation/widgets/restaurant_card.dart';
 import 'package:restaurant_app/utils/app_list_result_state.dart';
 
+import '../providers/notification/local_notification_provider.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -29,6 +31,20 @@ class _HomeState extends State<Home> {
     });
   }
 
+  Future<void> _requestPermission() async {
+    context.read<LocalNotificationProvider>().requestPermissions();
+  }
+
+  Future<void> _scheduleDailyElevenAMNotification() async {
+    context
+        .read<LocalNotificationProvider>()
+        .scheduleDailyElevenAMNotification();
+  }
+
+  Future<void> _cancelNotification(int id) async {
+    context.read<LocalNotificationProvider>().cancelNotification(id);
+  }
+
   @override
   Widget build(BuildContext context) {
     final localDatabaseProvider = context.read<LocalDatabaseProvider>();
@@ -44,7 +60,15 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.only(right: 16),
               child: Consumer<SharedPreferenceProvider>(
                 builder: (context, value, child) => GestureDetector(
-                  onTap: () => value.toggleNotification(value.notification),
+                  onTap: () async {
+                    value.toggleNotification(value.notification);
+                    if (value.notification) {
+                      await _requestPermission();
+                      await _scheduleDailyElevenAMNotification();
+                    } else {
+                      await _cancelNotification(3);
+                    }
+                  },
                   child: value.notification
                       ? HugeIcon(
                           icon: HugeIcons.strokeRoundedNotification01,
