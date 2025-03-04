@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/presentation/providers/database/local_database_provider.dart';
@@ -112,6 +113,7 @@ class _FavouriteState extends State<Favourite> {
               Expanded(
                 child: Consumer<LocalDatabaseProvider>(
                   builder: (context, value, child) {
+                    bool isFavourite = value.isFavourite;
                     if (value.favouriteList == null ||
                         value.favouriteList!.isEmpty) {
                       return const Center(
@@ -125,7 +127,10 @@ class _FavouriteState extends State<Favourite> {
                         return Hero(
                           tag: favourite.image,
                           child: RestaurantCard(
-                            onTap: () {},
+                            onTap: () {
+                              context
+                                  .push('/detail/${favourite.id}/$isFavourite');
+                            },
                             onFavourite: () {
                               value.toggleFavourite(favourite, favourite.id);
                             },

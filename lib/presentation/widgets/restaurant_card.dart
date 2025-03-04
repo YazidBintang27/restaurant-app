@@ -108,7 +108,7 @@ class RestaurantCard extends StatelessWidget {
             Consumer<LocalDatabaseProvider>(
               builder: (context, localDatabaseProvider, child) {
                 return FutureBuilder<bool>(
-                  future: localDatabaseProvider.isFavouriteRestaurant(restaurant?.id ?? ''),
+                  future: isFromLocal ? localDatabaseProvider.isFavouriteRestaurant(favourite?.id ?? '') : localDatabaseProvider.isFavouriteRestaurant(restaurant?.id ?? ''),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Icon(
