@@ -68,6 +68,16 @@ class _HomeState extends State<Home> {
                     } else {
                       await _cancelNotification(3);
                     }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          value.notification
+                              ? 'Notifikasi diaktifkan'
+                              : 'Notifikasi dinonaktifkan',
+                        ),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
                   },
                   child: value.notification
                       ? HugeIcon(
@@ -139,7 +149,8 @@ class _HomeState extends State<Home> {
                                 restaurant: restaurant,
                                 isFromLocal: false,
                                 onTap: () {
-                                  context.push('/detail/${restaurant.id}/false');
+                                  context
+                                      .push('/detail/${restaurant.id}/false');
                                 },
                                 onFavourite: () {
                                   Favourite favourite = Favourite(

@@ -128,6 +128,7 @@ class _FavouriteState extends State<Favourite> {
                           tag: favourite.image,
                           child: RestaurantCard(
                             onTap: () {
+                              debugPrint('is Favourite? $isFavourite');
                               context
                                   .push('/detail/${favourite.id}/$isFavourite');
                             },

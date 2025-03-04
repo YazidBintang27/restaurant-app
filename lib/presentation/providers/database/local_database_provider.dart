@@ -16,7 +16,7 @@ class LocalDatabaseProvider extends ChangeNotifier {
   List<Favourite>? _favouriteList;
   List<Favourite>? get favouriteList => _favouriteList;
 
-  bool _isFavourite = false;
+  bool _isFavourite = true;
   bool get isFavourite => _isFavourite;
 
   Future<void> insertItem(Favourite value) async {
