@@ -11,11 +11,10 @@ class AppRouter {
       builder: (context, state) => const Main(),
     ),
     GoRoute(
-        path: '/detail/:id/:isFromLocal',
+        path: '/detail/:id',
         builder: (context, state) {
           final id = state.pathParameters['id']!;
-          final isFromLocal = state.pathParameters['isFromLocal'] == 'true';
-          return Detail(id: id, isFromLocal: isFromLocal,);
+          return Detail(id: id);
         })
   ]);
 }

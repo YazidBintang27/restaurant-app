@@ -150,7 +150,7 @@ class _HomeState extends State<Home> {
                                 isFromLocal: false,
                                 onTap: () {
                                   context
-                                      .push('/detail/${restaurant.id}/false');
+                                      .push('/detail/${restaurant.id}');
                                 },
                                 onFavourite: () {
                                   Favourite favourite = Favourite(

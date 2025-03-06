@@ -101,7 +101,10 @@ class LocalDatabaseProvider extends ChangeNotifier {
     if (_isFavourite) {
       insertItem(favourite);
     } else {
-      removeItem(id);
+      removeItem(id).then((_) {
+        _favouriteList?.removeWhere((item) => item.id == id);
+        notifyListeners();
+      });
     }
   }
 

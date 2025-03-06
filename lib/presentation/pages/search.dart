@@ -114,7 +114,7 @@ class _SearchState extends State<Search> {
                                 restaurant: restaurant,
                                 isFromLocal: false,
                                 onTap: () {
-                                  context.push('/detail/${restaurant.id}/false');
+                                  context.push('/detail/${restaurant.id}');
                                 },
                                 onFavourite: () {
                                   Favourite favourite = Favourite(

@@ -130,7 +130,7 @@ class _FavouriteState extends State<Favourite> {
                             onTap: () {
                               debugPrint('is Favourite? $isFavourite');
                               context
-                                  .push('/detail/${favourite.id}/$isFavourite');
+                                  .push('/detail/${favourite.id}');
                             },
                             onFavourite: () {
                               value.toggleFavourite(favourite, favourite.id);
