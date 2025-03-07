@@ -31,20 +31,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Future<void> _requestPermission() async {
-    context.read<LocalNotificationProvider>().requestPermissions();
-  }
-
-  Future<void> _scheduleDailyElevenAMNotification() async {
-    context
-        .read<LocalNotificationProvider>()
-        .scheduleDailyElevenAMNotification();
-  }
-
-  Future<void> _cancelNotification(int id) async {
-    context.read<LocalNotificationProvider>().cancelNotification(id);
-  }
-
   @override
   Widget build(BuildContext context) {
     final localDatabaseProvider = context.read<LocalDatabaseProvider>();
@@ -57,59 +43,16 @@ class _HomeState extends State<Home> {
         ),
         actions: [
           Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: Consumer<SharedPreferenceProvider>(
-                builder: (context, value, child) => GestureDetector(
-                  onTap: () async {
-                    value.toggleNotification(value.notification);
-                    if (value.notification) {
-                      await _requestPermission();
-                      await _scheduleDailyElevenAMNotification();
-                    } else {
-                      await _cancelNotification(3);
-                    }
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          value.notification
-                              ? 'Notifikasi diaktifkan'
-                              : 'Notifikasi dinonaktifkan',
-                        ),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                  },
-                  child: value.notification
-                      ? HugeIcon(
-                          icon: HugeIcons.strokeRoundedNotification01,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 24.0,
-                        )
-                      : HugeIcon(
-                          icon: HugeIcons.strokeRoundedNotificationOff01,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 24.0,
-                        ),
-                ),
-              )),
-          Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: Consumer<SharedPreferenceProvider>(
-                builder: (context, value, child) => GestureDetector(
-                  onTap: () => value.toggleTheme(value.themes),
-                  child: value.themes
-                      ? HugeIcon(
-                          icon: HugeIcons.strokeRoundedMoon02,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 24.0,
-                        )
-                      : HugeIcon(
-                          icon: HugeIcons.strokeRoundedSun03,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 24.0,
-                        ),
-                ),
-              )),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: GestureDetector(
+              onTap: () => context.push('/setting'),
+              child: HugeIcon(
+                icon: HugeIcons.strokeRoundedSettings01,
+                color: Theme.of(context).colorScheme.primary,
+                size: 24.0,
+              ),
+            ),
+          )
         ],
       ),
       body: ConstrainedBox(
@@ -149,8 +92,7 @@ class _HomeState extends State<Home> {
                                 restaurant: restaurant,
                                 isFromLocal: false,
                                 onTap: () {
-                                  context
-                                      .push('/detail/${restaurant.id}');
+                                  context.push('/detail/${restaurant.id}');
                                 },
                                 onFavourite: () {
                                   Favourite favourite = Favourite(

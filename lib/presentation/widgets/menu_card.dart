@@ -8,7 +8,7 @@ class MenuCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(100),
+          borderRadius: BorderRadius.circular(100),
           border: Border.all(
               width: 1, color: Theme.of(context).colorScheme.tertiary)),
       child: Padding(

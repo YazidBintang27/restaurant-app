@@ -32,8 +32,10 @@ class ReviewCard extends StatelessWidget {
               ),
               Text(
                 date,
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    color: Theme.of(context).colorScheme.tertiary),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall
+                    ?.copyWith(color: Theme.of(context).colorScheme.tertiary),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

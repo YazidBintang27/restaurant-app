@@ -45,7 +45,9 @@ void main() async {
           create: (context) => SharedPreferenceProvider(
               context.read<SharedPreferenceService>())),
       Provider(
-        create: (context) => LocalNotificationService()..init()..configureLocalTimeZone(),
+        create: (context) => LocalNotificationService()
+          ..init()
+          ..configureLocalTimeZone(),
       ),
       ChangeNotifierProvider(
         create: (context) => LocalNotificationProvider(

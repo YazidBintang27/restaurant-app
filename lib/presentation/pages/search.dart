@@ -65,23 +65,16 @@ class _SearchState extends State<Search> {
           ),
           actions: [
             Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: Consumer<SharedPreferenceProvider>(
-                  builder: (context, value, child) => GestureDetector(
-                    onTap: () => value.toggleTheme(value.themes),
-                    child: value.themes
-                        ? HugeIcon(
-                            icon: HugeIcons.strokeRoundedMoon02,
-                            color: Theme.of(context).colorScheme.primary,
-                            size: 24.0,
-                          )
-                        : HugeIcon(
-                            icon: HugeIcons.strokeRoundedSun03,
-                            color: Theme.of(context).colorScheme.primary,
-                            size: 24.0,
-                          ),
-                  ),
-                )),
+              padding: const EdgeInsets.only(right: 16),
+              child: GestureDetector(
+                onTap: () => context.push('/setting'),
+                child: HugeIcon(
+                  icon: HugeIcons.strokeRoundedSettings01,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 24.0,
+                ),
+              ),
+            ),
           ],
         ),
         body: ConstrainedBox(

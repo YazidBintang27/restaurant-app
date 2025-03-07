@@ -28,9 +28,15 @@ class RestaurantCard extends StatelessWidget {
         ? '${ApiConstant.baseUrl}${ApiConstant.imagePath}/${favourite?.image}'
         : '${ApiConstant.baseUrl}${ApiConstant.imagePath}/${restaurant?.pictureId}';
 
-    final name = isFromLocal ? favourite?.name ?? 'Unknown' : restaurant?.name ?? 'Unknown';
-    final city = isFromLocal ? favourite?.city ?? 'Unknown' : restaurant?.city ?? 'Unknown';
-    final rating = isFromLocal ? favourite?.rating.toString() ?? '0.0' : restaurant?.rating.toString() ?? '0.0';
+    final name = isFromLocal
+        ? favourite?.name ?? 'Unknown'
+        : restaurant?.name ?? 'Unknown';
+    final city = isFromLocal
+        ? favourite?.city ?? 'Unknown'
+        : restaurant?.city ?? 'Unknown';
+    final rating = isFromLocal
+        ? favourite?.rating.toString() ?? '0.0'
+        : restaurant?.rating.toString() ?? '0.0';
 
     return GestureDetector(
       onTap: onTap,
@@ -51,7 +57,8 @@ class RestaurantCard extends StatelessWidget {
                 child: Image.network(
                   imageUrl,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image),
+                  errorBuilder: (context, error, stackTrace) =>
+                      const Icon(Icons.broken_image),
                 ),
               ),
             ),
@@ -108,7 +115,11 @@ class RestaurantCard extends StatelessWidget {
             Consumer<LocalDatabaseProvider>(
               builder: (context, localDatabaseProvider, child) {
                 return FutureBuilder<bool>(
-                  future: isFromLocal ? localDatabaseProvider.isFavouriteRestaurant(favourite?.id ?? '') : localDatabaseProvider.isFavouriteRestaurant(restaurant?.id ?? ''),
+                  future: isFromLocal
+                      ? localDatabaseProvider
+                          .isFavouriteRestaurant(favourite?.id ?? '')
+                      : localDatabaseProvider
+                          .isFavouriteRestaurant(restaurant?.id ?? ''),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Icon(
@@ -127,7 +138,9 @@ class RestaurantCard extends StatelessWidget {
                     bool isFavourite = snapshot.data ?? false;
                     return IconButton(
                       icon: Icon(
-                        isFavourite ? Icons.favorite_rounded : Icons.favorite_outline,
+                        isFavourite
+                            ? Icons.favorite_rounded
+                            : Icons.favorite_outline,
                         color: Colors.redAccent,
                         size: 24.0,
                       ),

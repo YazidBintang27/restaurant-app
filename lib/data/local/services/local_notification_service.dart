@@ -44,17 +44,17 @@ class LocalNotificationService {
 
   Future<bool> _requestExactAlarmsPermission() async {
     return await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
-        ?.requestExactAlarmsPermission() ??
+            .resolvePlatformSpecificImplementation<
+                AndroidFlutterLocalNotificationsPlugin>()
+            ?.requestExactAlarmsPermission() ??
         false;
   }
 
   Future<bool?> requestPermissions() async {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
       final iOSImplementation =
-      flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin>();
+          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+              IOSFlutterLocalNotificationsPlugin>();
       return await iOSImplementation?.requestPermissions(
         alert: true,
         badge: true,
@@ -65,14 +65,10 @@ class LocalNotificationService {
       final requestAlarmEnabled = await _requestExactAlarmsPermission();
       if (!notificationEnabled) {
         final requestNotificationsPermission =
-        await _requestAndroidNotificationsPermission();
-        return requestNotificationsPermission
-            &&
-            requestAlarmEnabled;
+            await _requestAndroidNotificationsPermission();
+        return requestNotificationsPermission && requestAlarmEnabled;
       }
-      return notificationEnabled
-          &&
-          requestAlarmEnabled;
+      return notificationEnabled && requestAlarmEnabled;
     } else {
       return false;
     }
@@ -87,7 +83,7 @@ class LocalNotificationService {
   tz.TZDateTime _nextInstanceOfElevenAM() {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
     tz.TZDateTime scheduledDate =
-    tz.TZDateTime(tz.local, now.year, now.month, now.day, 11);
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, 11);
     if (scheduledDate.isBefore(now)) {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
@@ -123,7 +119,7 @@ class LocalNotificationService {
       notificationDetails,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
-      UILocalNotificationDateInterpretation.absoluteTime,
+          UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
     );
   }

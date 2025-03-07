@@ -25,20 +25,6 @@ class _FavouriteState extends State<Favourite> {
     });
   }
 
-  Future<void> _requestPermission() async {
-    context.read<LocalNotificationProvider>().requestPermissions();
-  }
-
-  Future<void> _scheduleDailyElevenAMNotification() async {
-    context
-        .read<LocalNotificationProvider>()
-        .scheduleDailyElevenAMNotification();
-  }
-
-  Future<void> _cancelNotification(int id) async {
-    context.read<LocalNotificationProvider>().cancelNotification(id);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,49 +37,16 @@ class _FavouriteState extends State<Favourite> {
         ),
         actions: [
           Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: Consumer<SharedPreferenceProvider>(
-                builder: (context, value, child) => GestureDetector(
-                  onTap: () async {
-                    value.toggleNotification(value.notification);
-                    if (value.notification) {
-                      await _requestPermission();
-                      await _scheduleDailyElevenAMNotification();
-                    } else {
-                      await _cancelNotification(3);
-                    }
-                  },
-                  child: value.notification
-                      ? HugeIcon(
-                          icon: HugeIcons.strokeRoundedNotification01,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 24.0,
-                        )
-                      : HugeIcon(
-                          icon: HugeIcons.strokeRoundedNotificationOff01,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 24.0,
-                        ),
-                ),
-              )),
-          Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: Consumer<SharedPreferenceProvider>(
-                builder: (context, value, child) => GestureDetector(
-                  onTap: () => value.toggleTheme(value.themes),
-                  child: value.themes
-                      ? HugeIcon(
-                          icon: HugeIcons.strokeRoundedMoon02,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 24.0,
-                        )
-                      : HugeIcon(
-                          icon: HugeIcons.strokeRoundedSun03,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 24.0,
-                        ),
-                ),
-              )),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: GestureDetector(
+              onTap: () => context.push('/setting'),
+              child: HugeIcon(
+                icon: HugeIcons.strokeRoundedSettings01,
+                color: Theme.of(context).colorScheme.primary,
+                size: 24.0,
+              ),
+            ),
+          ),
         ],
       ),
       body: ConstrainedBox(
@@ -129,8 +82,7 @@ class _FavouriteState extends State<Favourite> {
                           child: RestaurantCard(
                             onTap: () {
                               debugPrint('is Favourite? $isFavourite');
-                              context
-                                  .push('/detail/${favourite.id}');
+                              context.push('/detail/${favourite.id}');
                             },
                             onFavourite: () {
                               value.toggleFavourite(favourite, favourite.id);

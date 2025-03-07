@@ -7,7 +7,7 @@ class AppTheme {
         colorScheme: ColorScheme.light(
             primary: const Color(0xFF262626),
             onPrimary: const Color(0xFFFCFCFC),
-            tertiary: const Color.fromARGB(127, 38, 38, 38) ),
+            tertiary: const Color.fromARGB(127, 38, 38, 38)),
         brightness: Brightness.light,
         useMaterial3: true,
         textTheme: _textTheme);

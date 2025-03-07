@@ -12,6 +12,8 @@ class AppTypography {
   static TextStyle titleSmall =
       _commonStyle.copyWith(fontSize: 14, fontWeight: FontWeight.w500);
 
-  static TextStyle bodyLargeRegular = 
-    _commonStyle.copyWith(fontSize: 12,fontWeight: FontWeight.w400,);
+  static TextStyle bodyLargeRegular = _commonStyle.copyWith(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+  );
 }

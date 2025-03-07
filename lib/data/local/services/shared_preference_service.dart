@@ -11,7 +11,7 @@ class SharedPreferenceService {
   Future<void> setThemes(bool value) async {
     try {
       await _preferences.setBool(_keyThemes, value);
-    } catch(e) {
+    } catch (e) {
       throw Exception("Error");
     }
   }
